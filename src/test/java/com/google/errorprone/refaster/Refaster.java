@@ -16,6 +16,7 @@
 package com.google.errorprone.refaster;
 
 public class Refaster {
+    @SuppressWarnings("unchecked")
     public static <T> T anyOf(T... expressions) {
         throw new UnsupportedOperationException();
     }

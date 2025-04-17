@@ -19,7 +19,6 @@ import com.google.errorprone.refaster.annotation.AfterTemplate;
 import com.google.errorprone.refaster.annotation.BeforeTemplate;
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.JavaFileObjects;
-import jakarta.annotation.Generated;
 import org.intellij.lang.annotations.Language;
 import org.jspecify.annotations.NullMarked;
 import org.junit.jupiter.api.Test;
@@ -197,7 +196,8 @@ class RefasterTemplateProcessorTest {
             fileForClass(org.slf4j.Logger.class),
             fileForClass(Primitive.class),
             fileForClass(NullMarked.class),
-            fileForClass(Generated.class)
+            fileForClass(jakarta.annotation.Generated.class),
+            fileForClass(javax.annotation.Generated.class)
           ))
           .withOptions(options)
           .compile(javaFileObject);
@@ -205,6 +205,10 @@ class RefasterTemplateProcessorTest {
 
     // As per https://github.com/google/auto/blob/auto-value-1.10.2/factory/src/test/java/com/google/auto/factory/processor/AutoFactoryProcessorTest.java#L99
     private static File fileForClass(Class<?> c) {
+        if (c.getProtectionDomain().getCodeSource() == null) {
+            // This happens for @javax.annotation.Generated in Java 8
+            return fileForClass(RefasterTemplateProcessorTest.class);
+        }
         URL url = c.getProtectionDomain().getCodeSource().getLocation();
         assert url.getProtocol().equals("file") || url.getProtocol().equals("jrt") : "Unexpected URL: " + url;
         return new File(url.getPath());
