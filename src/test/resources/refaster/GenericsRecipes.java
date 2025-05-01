@@ -63,7 +63,8 @@ public class GenericsRecipes extends Recipe {
         return Arrays.asList(
                 new FirstElementRecipe(),
                 new EmptyCollectionsRecipe(),
-                new WilcardsRecipe()
+                new WilcardsRecipe(),
+                new AnnotatedRecipe()
         );
     }
 
@@ -83,13 +84,13 @@ public class GenericsRecipes extends Recipe {
         @Override
         public String getDisplayName() {
             //language=markdown
-            return "Refaster template `Generics.FirstElement`";
+            return "FirstElement";
         }
 
         @Override
         public String getDescription() {
             //language=markdown
-            return "Recipe created for the following Refaster template:\n```java\npublic static class FirstElement {\n    \n    @BeforeTemplate()\n    String before(List<String> l) {\n        return l.iterator().next();\n    }\n    \n    @AfterTemplate()\n    String after(List<String> l) {\n        return l.get(0);\n    }\n}\n```\n.";
+            return "FirstElement.";
         }
 
         @Override
@@ -144,13 +145,13 @@ public class GenericsRecipes extends Recipe {
         @Override
         public String getDisplayName() {
             //language=markdown
-            return "Refaster template `Generics.EmptyCollections`";
+            return "EmptyCollections";
         }
 
         @Override
         public String getDescription() {
             //language=markdown
-            return "Recipe created for the following Refaster template:\n```java\npublic static class EmptyCollections<K, T> {\n    \n    @BeforeTemplate()\n    List<T> emptyList() {\n        return Collections.emptyList();\n    }\n    \n    @BeforeTemplate()\n    Collection<T> emptyMap() {\n        return Collections.<K, T>emptyMap().values();\n    }\n    \n    @BeforeTemplate()\n    List<T> newList() {\n        return new ArrayList<>();\n    }\n    \n    @BeforeTemplate()\n    Map<K, T> newMap() {\n        return new HashMap<>();\n    }\n}\n```\n.";
+            return "EmptyCollections.";
         }
 
         @Override
@@ -243,13 +244,13 @@ public class GenericsRecipes extends Recipe {
         @Override
         public String getDisplayName() {
             //language=markdown
-            return "Refaster template `Generics.Wilcards`";
+            return "Wilcards";
         }
 
         @Override
         public String getDescription() {
             //language=markdown
-            return "Recipe created for the following Refaster template:\n```java\npublic static class Wilcards<T> {\n    \n    @BeforeTemplate()\n    Comparator<?> wilcard1(Comparator<?> cmp) {\n        return cmp.thenComparingInt(null);\n    }\n    \n    @BeforeTemplate()\n    Comparator<? extends Number> wilcard2(Comparator<? extends Number> cmp) {\n        return cmp.thenComparingInt(null);\n    }\n    \n    @BeforeTemplate()\n    Comparator<T> wilcard3(Comparator<T> cmp) {\n        return cmp.thenComparingInt(null);\n    }\n    \n    @BeforeTemplate()\n    Comparator<? extends T> wilcard4(Comparator<? extends T> cmp) {\n        return cmp.thenComparingInt(null);\n    }\n}\n```\n.";
+            return "Wilcards.";
         }
 
         @Override
@@ -295,6 +296,59 @@ public class GenericsRecipes extends Recipe {
                     Preconditions.and(
                             new UsesType<>("java.util.Comparator", true),
                             new UsesMethod<>("java.util.Comparator thenComparingInt(..)", true)
+                    ),
+                    javaVisitor
+            );
+        }
+    }
+
+    /**
+     * OpenRewrite recipe created for Refaster template {@code Generics.Annotated}.
+     */
+    @SuppressWarnings("all")
+    @NullMarked
+    @Generated("org.openrewrite.java.template.processor.RefasterTemplateProcessor")
+    public static class AnnotatedRecipe extends Recipe {
+
+        /**
+         * Instantiates a new instance.
+         */
+        public AnnotatedRecipe() {}
+
+        @Override
+        public String getDisplayName() {
+            //language=markdown
+            return "Annotated";
+        }
+
+        @Override
+        public String getDescription() {
+            //language=markdown
+            return "Annotated.";
+        }
+
+        @Override
+        public TreeVisitor<?, ExecutionContext> getVisitor() {
+            JavaVisitor<ExecutionContext> javaVisitor = new AbstractRefasterJavaVisitor() {
+                final JavaTemplate before = JavaTemplate
+                        .builder("#{a:any(java.util.List<? extends @org.jspecify.annotations.Nullable java.lang.Void>)}.equals(#{b:any(java.util.List<? extends @org.jspecify.annotations.Nullable T>)})")
+                        .genericTypes("T extends java.lang.Number")
+                        .build();
+
+                @Override
+                public J visitMethodInvocation(J.MethodInvocation elem, ExecutionContext ctx) {
+                    JavaTemplate.Matcher matcher;
+                    if ((matcher = before.matcher(getCursor())).find()) {
+                        return SearchResult.found(elem);
+                    }
+                    return super.visitMethodInvocation(elem, ctx);
+                }
+
+            };
+            return Preconditions.check(
+                    Preconditions.and(
+                            new UsesType<>("java.util.List", true),
+                            new UsesMethod<>("java.util.List equals(..)", true)
                     ),
                     javaVisitor
             );

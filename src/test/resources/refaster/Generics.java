@@ -17,11 +17,14 @@ package foo;
 
 import com.google.errorprone.refaster.annotation.AfterTemplate;
 import com.google.errorprone.refaster.annotation.BeforeTemplate;
+import org.jspecify.annotations.Nullable;
+import org.openrewrite.java.template.RecipeDescriptor;
 
 import java.util.*;
 
 public class Generics {
 
+    @RecipeDescriptor(name = "FirstElement", description = "FirstElement.")
     public static class FirstElement {
         @BeforeTemplate
         String before(List<String> l) {
@@ -34,6 +37,7 @@ public class Generics {
         }
     }
 
+    @RecipeDescriptor(name = "EmptyCollections", description = "EmptyCollections.")
     public static class EmptyCollections<K, T> {
         @BeforeTemplate
         List<T> emptyList() {
@@ -56,6 +60,7 @@ public class Generics {
         }
     }
 
+    @RecipeDescriptor(name = "Wilcards", description = "Wilcards.")
     public static class Wilcards<T> {
 
         @BeforeTemplate
@@ -76,6 +81,14 @@ public class Generics {
         @BeforeTemplate
         Comparator<? extends T> wilcard4(Comparator<? extends T> cmp) {
             return cmp.thenComparingInt(null);
+        }
+    }
+
+    @RecipeDescriptor(name = "Annotated", description = "Annotated.")
+    public static class Annotated<T extends @Nullable Number> {
+        @BeforeTemplate
+        boolean before(List<? extends @Nullable Void> a, List<? extends @Nullable T> b) {
+            return a.equals(b);
         }
     }
 }
