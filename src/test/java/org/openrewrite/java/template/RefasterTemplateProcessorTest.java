@@ -98,6 +98,7 @@ class RefasterTemplateProcessorTest {
       "ShouldAddImports",
       "ShouldSupportNestedClasses",
       "SimplifyTernary",
+      "SuppressedWarningsAsTags",
       "RefasterAnyOf",
       "Parameters",
       "PreconditionsVerifier",
