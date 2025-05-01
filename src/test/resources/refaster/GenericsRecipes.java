@@ -84,13 +84,13 @@ public class GenericsRecipes extends Recipe {
         @Override
         public String getDisplayName() {
             //language=markdown
-            return "FirstElement";
+            return "Recipe name";
         }
 
         @Override
         public String getDescription() {
             //language=markdown
-            return "FirstElement.";
+            return "Recipe description.";
         }
 
         @Override
@@ -145,13 +145,13 @@ public class GenericsRecipes extends Recipe {
         @Override
         public String getDisplayName() {
             //language=markdown
-            return "EmptyCollections";
+            return "Recipe name";
         }
 
         @Override
         public String getDescription() {
             //language=markdown
-            return "EmptyCollections.";
+            return "Recipe description.";
         }
 
         @Override
@@ -244,13 +244,13 @@ public class GenericsRecipes extends Recipe {
         @Override
         public String getDisplayName() {
             //language=markdown
-            return "Wilcards";
+            return "Recipe name";
         }
 
         @Override
         public String getDescription() {
             //language=markdown
-            return "Wilcards.";
+            return "Recipe description.";
         }
 
         @Override
@@ -318,20 +318,20 @@ public class GenericsRecipes extends Recipe {
         @Override
         public String getDisplayName() {
             //language=markdown
-            return "Annotated";
+            return "Recipe name";
         }
 
         @Override
         public String getDescription() {
             //language=markdown
-            return "Annotated.";
+            return "Recipe description.";
         }
 
         @Override
         public TreeVisitor<?, ExecutionContext> getVisitor() {
             JavaVisitor<ExecutionContext> javaVisitor = new AbstractRefasterJavaVisitor() {
                 final JavaTemplate before = JavaTemplate
-                        .builder("#{a:any(java.util.List<? extends @org.jspecify.annotations.Nullable java.lang.Void>)}.equals(#{b:any(java.util.List<? extends @org.jspecify.annotations.Nullable T>)})")
+                        .builder("#{a:any(java.util.List<? extends java.lang.Void>)}.equals(#{b:any(java.util.List<? extends T>)})")
                         .genericTypes("T extends java.lang.Number")
                         .build();
 

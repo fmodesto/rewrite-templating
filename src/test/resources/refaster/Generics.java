@@ -24,7 +24,7 @@ import java.util.*;
 
 public class Generics {
 
-    @RecipeDescriptor(name = "FirstElement", description = "FirstElement.")
+    @RecipeDescriptor(name = "Recipe name", description = "Recipe description.")
     public static class FirstElement {
         @BeforeTemplate
         String before(List<String> l) {
@@ -37,7 +37,7 @@ public class Generics {
         }
     }
 
-    @RecipeDescriptor(name = "EmptyCollections", description = "EmptyCollections.")
+    @RecipeDescriptor(name = "Recipe name", description = "Recipe description.")
     public static class EmptyCollections<K, T> {
         @BeforeTemplate
         List<T> emptyList() {
@@ -60,7 +60,7 @@ public class Generics {
         }
     }
 
-    @RecipeDescriptor(name = "Wilcards", description = "Wilcards.")
+    @RecipeDescriptor(name = "Recipe name", description = "Recipe description.")
     public static class Wilcards<T> {
 
         @BeforeTemplate
@@ -84,7 +84,7 @@ public class Generics {
         }
     }
 
-    @RecipeDescriptor(name = "Annotated", description = "Annotated.")
+    @RecipeDescriptor(name = "Recipe name", description = "Recipe description.")
     public static class Annotated<T extends @Nullable Number> {
         @BeforeTemplate
         boolean before(List<? extends @Nullable Void> a, List<? extends @Nullable T> b) {

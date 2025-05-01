@@ -89,19 +89,19 @@ class RefasterTemplateProcessorTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-//      "Escapes",
+      "Escapes",
       "Generics",
-//      "Lambdas",
-//      "Matching",
-//      "MultipleDereferences",
-//      "PicnicRules",
-//      "ShouldAddImports",
-//      "ShouldSupportNestedClasses",
-//      "SimplifyTernary",
-//      "SuppressedWarningsAsTags",
-//      "RefasterAnyOf",
-//      "Parameters",
-//      "PreconditionsVerifier",
+      "Lambdas",
+      "Matching",
+      "MultipleDereferences",
+      "PicnicRules",
+      "ShouldAddImports",
+      "ShouldSupportNestedClasses",
+      "SimplifyTernary",
+      "SuppressedWarningsAsTags",
+      "RefasterAnyOf",
+      "Parameters",
+      "PreconditionsVerifier",
     })
     void nestedRecipes(String recipeName) {
         Compilation compilation = compileResource("refaster/" + recipeName + ".java");
